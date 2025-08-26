@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Davidskiltech Expert — IT Support • Web Development • Design</title>
+  <meta name="description" content="Davidskiltech Expert provides IT support, web development, and graphic design services. Reliable, fast, and user‑focused solutions for businesses.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --bg:#06122a;           /* Deep blue background */
+      --bg-2:#0d2149;         /* Slightly lighter blue */
+      --text:#ffffff;         /* White text */
+      --muted:#c7d2fe;        /* Light indigo for muted labels */
+      --accent:#6ee7ff;       /* Cyan accent */
+      --accent-2:#a78bfa;     /* Soft purple accent */
+      --card:#0b1b3a;         /* Card background */
+      --shade:#102753;        /* Section divider shade */
+      --ok:#22c55e;           /* Success green */
+      --warn:#f59e0b;         /* Warning amber */
+      --err:#ef4444;          /* Error red */
+      --radius:18px;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --shadow-soft:0 6px 18px rgba(0,0,0,.25);
+      --max:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text); background:linear-gradient(180deg,var(--bg),var(--bg-2));
+      font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      line-height:1.6; overflow-x:hidden;
+    }
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{max-width:var(--max); margin:0 auto; padding:0 20px}
+
+    /* Header */
+    header{position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(8px);}
+    .nav{
+      display:flex; align-items:center; justify-content:space-between; padding:14px 0; border-bottom:1px solid rgba(255,255,255,.08);
+      background:rgba(6,18,42,.6);
+    }
+    .brand{display:flex; align-items:center; gap:12px; font-weight:800; letter-spacing:.2px}
+    .logo{
+      width:42px; height:42px; border-radius:50%;
+      background:conic-gradient(from 0deg at 50% 50%, var(--accent) 0 120deg, transparent 120deg 360deg),
+                 radial-gradient(120% 120% at -10% -10%, var(--accent-2), transparent 60%),
+                 radial-gradient(120% 120% at 120% 120%, #22d3ee, transparent 60%);
+      box-shadow:inset 0 0 0 4px rgba(255,255,255,.06), var(--shadow-soft);
+      position:relative; overflow:hidden;
+    }
+    .logo::after{content:""; position:absolute; inset:6px; border-radius:50%; background:rgba(255,255,255,.06)}
+    .nav ul{display:flex; gap:22px; list-style:none; padding:0; margin:0; font-weight:600}
+    .nav a:hover{opacity:.9}
+    .cta{display:flex; gap:12px}
+    .btn{padding:10px 16px; border-radius:999px; font-weight:700; border:1px solid transparent; transition:transform .2s ease, box-shadow .2s ease, background .2s ease}
+    .btn:hover{transform:translateY(-1px)}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#041026; box-shadow:var(--shadow-soft)}
+    .btn-ghost{border-color:rgba(255,255,255,.18); background:rgba(255,255,255,.04)}
+
+    /* Mobile nav */
+    .menu{display:none}
+    .mobile-menu{display:none}
+    @media (max-width: 900px){
+      .nav ul{display:none}
+      .menu{display:inline-flex; gap:8px}
+      .mobile-menu{display:grid; gap:14px; padding:16px; background:rgba(6,18,42,.9); border-bottom:1px solid rgba(255,255,255,.08)}
+      .cta{display:none}
+    }
+
+    /* Hero */
+    .hero{position:relative; padding:96px 0 72px; overflow:hidden}
+    .hero .grid{display:grid; grid-template-columns:1.2fr .8fr; gap:42px; align-items:center}
+    .eyebrow{display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid rgba(255,255,255,.14); border-radius:999px; font-size:12px; text-transform:uppercase; letter-spacing:.12em; color:var(--muted);}
+    h1{font-size: clamp(32px, 5vw, 56px); line-height:1.08; margin:16px 0}
+    .lead{font-size: clamp(16px, 2.2vw, 20px); color:#dbeafe}
+    .hero .actions{margin-top:26px; display:flex; gap:12px; flex-wrap:wrap}
+
+    .phone-mock{
+      width:100%; aspect-ratio:10/16; border-radius:34px; background:linear-gradient(180deg,#0f1d3d,#0a1630);
+      box-shadow:0 20px 60px rgba(0,0,0,.45), inset 0 0 0 1px rgba(255,255,255,.06);
+      padding:16px; position:relative; isolation:isolate;
+    }
+    .phone-mock::before{content:""; position:absolute; inset:8px; border-radius:26px; background:radial-gradient(80% 80% at 20% 0%, rgba(167,139,250,.4), transparent 50%), radial-gradient(60% 60% at 100% 100%, rgba(110,231,255,.35), transparent 40%)}
+    .status{position:absolute; top:16px; left:50%; transform:translateX(-50%); width:110px; height:6px; background:rgba(255,255,255,.08); border-radius:999px}
+    .bubbles{position:absolute; inset:0; display:grid; place-items:center; filter:blur(40px); opacity:.8; z-index:-1}
+    .bubble{position:absolute; border-radius:999px; background:linear-gradient(180deg, rgba(110,231,255,.5), rgba(167,139,250,.25));}
+    .bubble.b1{width:320px; height:320px; top:-60px; right:-60px}
+    .bubble.b2{width:220px; height:220px; bottom:-50px; left:-50px}
+
+    /* Sections */
+    section{padding:72px 0}
+    .section-head{margin-bottom:26px}
+    .section-eyebrow{color:var(--muted); text-transform:uppercase; font-weight:700; letter-spacing:.14em; font-size:12px}
+    .section-title{font-size:clamp(26px,4vw,40px); margin:8px 0}
+    .section-desc{max-width:780px; color:#dbeafe}
+
+    /* About */
+    .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:28px}
+    .card{background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow-soft)}
+    .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
+    .kpi{padding:18px; border-radius:14px; background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.06)}
+    .kpi b{font-size:28px}
+
+    /* Services */
+    .services-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px}
+    .service{padding:22px; border-radius:16px; background:linear-gradient(180deg, rgba(167,139,250,.12), rgba(110,231,255,.08)); border:1px dashed rgba(255,255,255,.16)}
+    .service h3{margin:10px 0 6px}
+
+    /* Portfolio */
+    .filters{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px}
+    .chip{padding:8px 14px; border-radius:999px; border:1px solid rgba(255,255,255,.18); cursor:pointer; user-select:none}
+    .chip.active{background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:#041026; border-color:transparent}
+    .portfolio-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    .proj{position:relative; border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,.08)}
+    .proj .thumb{aspect-ratio:16/10; background:linear-gradient(135deg, rgba(110,231,255,.25), rgba(167,139,250,.25)); display:grid; place-items:center; font-weight:800; font-size:34px; letter-spacing:.04em}
+    .proj .meta{position:absolute; inset:auto 0 0 0; padding:12px 14px; background:linear-gradient(180deg, transparent, rgba(0,0,0,.6));}
+
+    /* Testimonials */
+    .carousel{position:relative}
+    .slides{display:flex; gap:16px; overflow:hidden}
+    .testimonial{min-width:calc(100% - 2px); background:var(--card); border-radius:18px; border:1px solid rgba(255,255,255,.06); padding:22px}
+    .controls{display:flex; gap:10px; margin-top:10px; justify-content:flex-end}
+
+    /* FAQ */
+    .faq{display:grid; gap:12px}
+    .faq details{background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:14px}
+    .faq summary{cursor:pointer; font-weight:700}
+
+    /* Contact */
+    form{display:grid; gap:12px}
+    input, textarea, select{width:100%; padding:12px 14px; border-radius:12px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); color:var(--text)}
+    input::placeholder, textarea::placeholder{color:#cbd5e1}
+    .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+    .notice{font-size:13px; color:#c7d2fe}
+
+    /* Footer */
+    footer{background:var(--shade); padding:26px 0; border-top:1px solid rgba(255,255,255,.08)}
+
+    /* Utilities */
+    .hidden{display:none !important}
+    .center{text-align:center}
+    .muted{color:#bfdbfe}
+
+    /* Responsive */
+    @media (max-width: 1000px){
+      .hero .grid{grid-template-columns:1fr}
+      .about-grid{grid-template-columns:1fr}
+      .kpis{grid-template-columns:repeat(2,1fr)}
+      .services-grid{grid-template-columns:repeat(2,1fr)}
+      .portfolio-grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width: 640px){
+      .services-grid{grid-template-columns:1fr}
+      .portfolio-grid{grid-template-columns:1fr}
+    }
+
+    /* Scroll reveal */
+    [data-reveal]{opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease}
+    [data-reveal].visible{opacity:1; transform:none}
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#home" aria-label="Davidskiltech Expert Home">
+        <span class="logo" aria-hidden="true"></span>
+        <span>Davidskiltech <span class="muted">Expert</span></span>
+      </a>
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#work">Portfolio</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="cta">
+        <a class="btn btn-ghost" href="#work">View Work</a>
+        <a class="btn btn-primary" href="#contact">Get a Quote</a>
+      </div>
+      <button id="menuBtn" class="menu btn btn-ghost" aria-expanded="false" aria-controls="mobileMenu">Menu ▾</button>
+    </div>
+    <div id="mobileMenu" class="mobile-menu" hidden>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#work">Portfolio</a>
+      <a href="#testimonials">Testimonials</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="home" class="hero">
+    <div class="container">
+      <div class="grid">
+        <div>
+          <span class="eyebrow" data-reveal>IT Support • Web • Design</span>
+          <h1 data-reveal>Fast, Reliable, and Modern Tech Solutions for Growing Brands.</h1>
+          <p class="lead" data-reveal>We help small businesses and teams build secure systems, beautiful websites, and smooth digital experiences that convert.
+          </p>
+          <div class="actions" data-reveal>
+            <a class="btn btn-primary" href="#contact">Start a Project</a>
+            <a class="btn btn-ghost" href="#services">Explore Services</a>
+          </div>
+        </div>
+        <div>
+          <div class="phone-mock" aria-hidden="true">
+            <div class="status"></div>
+            <div class="bubbles">
+              <div class="bubble b1"></div>
+              <div class="bubble b2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <header class="section-head">
+        <div class="section-eyebrow" data-reveal>About Us</div>
+        <h2 class="section-title" data-reveal>Davidskiltech Expert</h2>
+        <p class="section-desc" data-reveal>
+          We’re a Lagos‑based technology partner focused on <strong>IT support</strong>, <strong>web development</strong>, and <strong>graphic design</strong>. Our mission is to deliver fast, dependable solutions with a clean, modern user experience.
+        </p>
+      </header>
+      <div class="about-grid">
+        <article class="card" data-reveal>
+          <h3>Why clients choose us</h3>
+          <ul>
+            <li>Same‑day response & clear communication</li>
+            <li>Security‑first mindset for infrastructure and apps</li>
+            <li>Pixel‑perfect frontends with attention to performance</li>
+            <li>Scalable solutions ready for growth</li>
+          </ul>
+        </article>
+        <aside class="card" data-reveal>
+          <h3>Core stack</h3>
+          <p>JavaScript/TypeScript, React, Next.js, Node.js, Python, Tailwind, Sanity CMS, Html, Css, Javascript and modern CI/CD.</p>
+          <div class="kpis" style="margin-top:10px">
+            <div class="kpi"><b>120+</b><br><span class="muted">Projects</span></div>
+            <div class="kpi"><b>98%</b><br><span class="muted">Satisfaction</span></div>
+            <div class="kpi"><b>24/7</b><br><span class="muted">Support</span></div>
+            <div class="kpi"><b>3x</b><br><span class="muted">Faster Loads</span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services">
+    <div class="container">
+      <header class="section-head">
+        <div class="section-eyebrow" data-reveal>What We Do</div>
+        <h2 class="section-title" data-reveal>Services tailored for outcomes</h2>
+        <p class="section-desc" data-reveal>From urgent IT fixes to full product builds, we combine engineering discipline with design taste to ship.
+        </p>
+      </header>
+      <div class="services-grid">
+        <div class="service" data-reveal>
+          <h3>IT Support & Maintenance</h3>
+          <p>Helpdesk, device setup, network troubleshooting, backups, and security hardening for SMEs.</p>
+        </div>
+        <div class="service" data-reveal>
+          <h3>Web Development</h3>
+          <p>Conversion‑focused websites using React/Next.js, optimized for speed, SEO, and accessibility.</p>
+        </div>
+        <div class="service" data-reveal>
+          <h3>UI/UX & Brand Design</h3>
+          <p>Design systems, wireframes, and brand assets that feel consistent and delightful.</p>
+        </div>
+        <div class="service" data-reveal>
+          <h3>E‑commerce</h3>
+          <p>Scalable storefronts with secure payments, inventory, analytics, and growth loops.</p>
+        </div>
+        <div class="service" data-reveal>
+          <h3>Cloud & DevOps</h3>
+          <p>Deployments, CI/CD, monitoring, incident response, and cost‑efficient cloud architecture.</p>
+        </div>
+        <div class="service" data-reveal>
+          <h3>Training</h3>
+          <p>Team upskilling on modern tooling, workflows, and best practices for maintainable codebases.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section id="work">
+    <div class="container">
+      <header class="section-head">
+        <div class="section-eyebrow" data-reveal>Selected Work</div>
+        <h2 class="section-title" data-reveal>Projects that speak for themselves</h2>
+        <p class="section-desc" data-reveal>Filter by focus area and explore a few recent builds. Real results, measurable impact.</p>
+      </header>
+      <div class="filters" role="tablist" aria-label="Project filters">
+        <button class="chip active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="chip" data-filter="web" role="tab">Web</button>
+        <button class="chip" data-filter="design" role="tab">Design</button>
+        <button class="chip" data-filter="it" role="tab">IT Support</button>
+      </div>
+      <div class="portfolio-grid" id="portfolio">
+        <article class="proj" data-tags="web">
+          <div class="thumb">DX</div>
+          <div class="meta"><b>Dashboard Experience</b><br><span class="muted">React • Charts • API</span></div>
+        </article>
+        <article class="proj" data-tags="design">
+          <div class="thumb">BR</div>
+          <div class="meta"><b>Brand Refresh</b><br><span class="muted">Identity • UI Kit</span></div>
+        </article>
+        <article class="proj" data-tags="it">
+          <div class="thumb">NW</div>
+          <div class="meta"><b>Network Overhaul</b><br><span class="muted">Security • Uptime</span></div>
+        </article>
+        <article class="proj" data-tags="web design">
+          <div class="thumb">EC</div>
+          <div class="meta"><b>E‑commerce Launch</b><br><span class="muted">Next.js • Payments</span></div>
+        </article>
+        <article class="proj" data-tags="design">
+          <div class="thumb">UX</div>
+          <div class="meta"><b>UX Audit</b><br><span class="muted">Research • Usability</span></div>
+        </article>
+        <article class="proj" data-tags="web it">
+          <div class="thumb">SO</div>
+          <div class="meta"><b>Site Ops</b><br><span class="muted">Monitoring • CI/CD</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials">
+    <div class="container">
+      <header class="section-head">
+        <div class="section-eyebrow" data-reveal>They said it</div>
+        <h2 class="section-title" data-reveal>Client love, loud and clear</h2>
+        <p class="section-desc" data-reveal>We obsess over outcomes. Here’s what partners say about working with us.</p>
+      </header>
+      <div class="carousel">
+        <div class="slides" id="slides">
+          <figure class="testimonial">
+            <blockquote>“Our website speed jumped 3× and leads doubled within a month. Communication was crisp and timelines were met.”</blockquote>
+            <figcaption class="muted">— Ada, Product Lead</figcaption>
+          </figure>
+          <figure class="testimonial">
+            <blockquote>“When our network went down, they restored services the same day and set up monitoring to prevent repeat issues.”</blockquote>
+            <figcaption class="muted">— Kunle, Ops Manager</figcaption>
+          </figure>
+          <figure class="testimonial">
+            <blockquote>“Clean design, clear UX, and thoughtful engineering. The handover docs were the best I’ve seen.”</blockquote>
+            <figcaption class="muted">— Zainab, Founder</figcaption>
+          </figure>
+        </div>
+        <div class="controls">
+          <button class="chip" id="prev">◀ Prev</button>
+          <button class="chip" id="next">Next ▶</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <header class="section-head">
+        <div class="section-eyebrow" data-reveal>Questions</div>
+        <h2 class="section-title" data-reveal>FAQ</h2>
+      </header>
+      <div class="faq">
+        <details>
+          <summary>How fast can you start?</summary>
+          <p>We typically begin within 3–5 business days after scope and deposit. Urgent requests may start sooner.</p>
+        </details>
+        <details>
+          <summary>Do you provide ongoing support?</summary>
+          <p>Yes. We offer monthly support plans for monitoring, updates, backups, and incident response.</p>
+        </details>
+        <details>
+          <summary>What if I already have a design?</summary>
+          <p>Great! We can build from your Figma or existing brand system and keep everything consistent.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="container">
+      <header class="section-head">
+        <div class="section-eyebrow" data-reveal>Contact</div>
+        <h2 class="section-title" data-reveal>Tell us about your project</h2>
+        <p class="section-desc" data-reveal>We usually respond within the day. Share a few details so we can prepare the best next step.</p>
+      </header>
+      <div class="card">
+        <form id="contactForm" novalidate>
+          <div class="grid-2">
+            <div>
+              <label for="name">Name</label>
+              <input id="name" name="name" placeholder="Jane Doe" required />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="jane@example.com" required />
+            </div>
+          </div>
+          <div class="grid-2">
+            <div>
+              <label for="service">Service</label>
+              <select id="service" name="service" required>
+                <option value="">Select a service…</option>
+                <option>IT Support</option>
+                <option>Web Development</option>
+                <option>UI/UX Design</option>
+                <option>E‑commerce</option>
+                <option>Cloud & DevOps</option>
+                <option>Training</option>
+              </select>
+            </div>
+            <div>
+              <label for="budget">Budget</label>
+              <select id="budget" name="budget" required>
+                <option value="">Choose a range…</option>
+                <option>$500 – $1,500</option>
+                <option>$1,500 – $5,000</option>
+                <option>$5,000 – $10,000</option>
+                <option>$10,000+</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" placeholder="Briefly describe your project goals…" required></textarea>
+          </div>
+          <div class="notice" id="formNotice">We respect your privacy. Your info is only used to reply.</div>
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+            <button class="btn btn-primary" type="submit">Send Message</button>
+            <span id="formStatus" class="muted" role="status" aria-live="polite"></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex; gap:16px; justify-content:space-between; align-items:center; flex-wrap:wrap">
+      <div class="brand">
+        <span class="logo" aria-hidden="true"></span>
+        <div>
+          <b>Davidskiltech Expert</b><br/>
+          <span class="muted">IT Support • Web • Design</span>
+        </div>
+      </div>
+      <div class="muted">© <span id="year"></span> Davidskiltech Expert. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', ()=>{
+      const isOpen = mobileMenu.hasAttribute('hidden')===false;
+      if(isOpen){ mobileMenu.setAttribute('hidden',''); menuBtn.setAttribute('aria-expanded','false'); }
+      else{ mobileMenu.removeAttribute('hidden'); menuBtn.setAttribute('aria-expanded','true'); }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', e=>{
+        const id = a.getAttribute('href');
+        if(id && id.length > 1){
+          const el = document.querySelector(id);
+          if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+        }
+      });
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('[data-reveal]');
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(ent=>{
+        if(ent.isIntersecting){ ent.target.classList.add('visible'); io.unobserve(ent.target);} 
+      })
+    }, {threshold:0.2});
+    revealEls.forEach(el=>io.observe(el));
+
+    // Portfolio filter
+    const chips = document.querySelectorAll('.chip');
+    const projEls = document.querySelectorAll('.proj');
+    chips.forEach(ch=>{
+      ch.addEventListener('click', ()=>{
+        if(!ch.dataset.filter) return;
+        chips.forEach(c=>c.classList.remove('active'));
+        ch.classList.add('active');
+        const f = ch.dataset.filter;
+        projEls.forEach(p=>{
+          const tags = (p.dataset.tags||'').split(' ');
+          if(f==='all' || tags.includes(f)) p.classList.remove('hidden');
+          else p.classList.add('hidden');
+        });
+      });
+    });
+
+    // Testimonials carousel (simple)
+    const slides = document.getElementById('slides');
+    const prev = document.getElementById('prev');
+    const next = document.getElementById('next');
+    let index = 0;
+    function go(i){
+      const total = slides.children.length;
+      index = (i+total)%total;
+      slides.style.transform = `translateX(${-index*100}%)`;
+      slides.style.transition = 'transform .5s ease';
+    }
+    prev?.addEventListener('click', ()=>go(index-1));
+    next?.addEventListener('click', ()=>go(index+1));
+    setInterval(()=>go(index+1), 6000);
+
+    // Contact form (front-end only)
+    const form = document.getElementById('contactForm');
+    const status = document.getElementById('formStatus');
+    const notice = document.getElementById('formNotice');
+    form?.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      if(!form.checkValidity()){
+        status.textContent = 'Please fill all required fields correctly.';
+        status.style.color = 'var(--warn)';
+        return;
+      }
+      // Simulate success (Replace with real endpoint)
+      status.textContent = 'Sending…';
+      status.style.color = 'var(--muted)';
+      setTimeout(()=>{
+        status.textContent = 'Message sent! We\'ll get back shortly.';
+        status.style.color = 'var(--ok)';
+        notice.textContent = 'Thanks! We typically reply within a few hours.';
+        form.reset();
+      }, 900);
+    });
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
